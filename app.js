@@ -58,6 +58,10 @@ function initMenu() {
             case "Add new role":
                 newRole()
                 break;
+
+            case "Add new department":
+                newDepartment()
+                break;
                 
             case "Edit employee":
                 editEmployee();
@@ -72,4 +76,40 @@ function initMenu() {
                 break;
         }
     })
+}
+
+function employeeSummary() {
+
+}
+
+function roleSummary() {
+    
+}
+
+function departmentSummary() {
+    
+}
+
+function newEmployee() {
+    
+}
+
+function newRole() {
+    
+}
+
+function newDepartment() {
+    
+}
+
+function editEmployee() {
+    
+}
+
+function editRole() {
+    
+}
+
+function editDepartment() {
+    
 }
