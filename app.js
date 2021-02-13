@@ -28,8 +28,8 @@ function initMenu() {
         message: "What would you like to do?",
         choices :[
             "View all employees",
-            "View employees by role",
-            "View employees by department",
+            "View all roles",
+            "View all departments",
             "Add new employee",
             "Add new role",
             "Add new department",
@@ -43,11 +43,11 @@ function initMenu() {
                 employeeSummary();
                 break;
             
-            case "View employees by role":
+            case "View all roles":
                 roleSummary();
                 break;
                 
-            case "View employees by department":
+            case "View all departments":
                 departmentSummary();
                 break;
             
@@ -93,13 +93,13 @@ function employeeSummary() {
 }
 
 function roleSummary() {
-    let query = "SELECT role.title AS title, role.id AS id, role.salary AS salary, role.department_id AS department_id FROM role ORDER BY title";
+    let query = "SELECT role.title AS title, role.id AS id, role.salary AS salary, role.department_id AS department_id FROM role ORDER BY id";
 
     connection.query(query, function(err, res) {
         if (err) {
             throw err
         };
-        console.log("Summary of employees by role:")
+        console.log("Summary of roles:")
         console.table(res)
 
         initMenu();
@@ -107,7 +107,17 @@ function roleSummary() {
 }
 
 function departmentSummary() {
-    
+    let query = "SELECT department.name AS department_name, department.id AS id FROM department ORDER BY id";
+
+    connection.query(query, function(err, res) {
+        if (err) {
+            throw err
+        };
+        console.log("Summary of departments:")
+        console.table(res)
+
+        initMenu();
+    });
 }
 
 function newEmployee() {
