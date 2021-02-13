@@ -88,12 +88,22 @@ function employeeSummary() {
         console.log("Summary of employees:")
         console.table(res)
 
-        // initMenu();
+        initMenu();
     });
 }
 
 function roleSummary() {
-    
+    let query = "SELECT role.title AS title, role.id AS id, role.salary AS salary, role.department_id AS department_id FROM role ORDER BY title";
+
+    connection.query(query, function(err, res) {
+        if (err) {
+            throw err
+        };
+        console.log("Summary of employees by role:")
+        console.table(res)
+
+        initMenu();
+    });
 }
 
 function departmentSummary() {
