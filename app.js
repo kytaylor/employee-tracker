@@ -6,13 +6,13 @@ const inquirer = require("inquirer");
 const consoleTable = require("console.table");
 
 // Connection Properties
-const connection = {
+const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "password",
+    password: "",
     database: "employees_DB"
-}
+});
 
 // Database Connection
 connection.connect(function(err) {
@@ -79,7 +79,17 @@ function initMenu() {
 }
 
 function employeeSummary() {
+    let query = "SELECT e.id AS id, CONCAT(e.first_name, ' ', e.last_name) AS name, role.title AS title, role.salary AS salary, department.name AS department, CONCAT(m.first_name, ' ', m.last_name) AS manager FROM employee e LEFT JOIN employee m ON m.id = e.manager_id LEFT JOIN role ON e.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY id ASC";
 
+    connection.query(query, function(err, res) {
+        if (err) {
+            throw err
+        };
+        console.log("Summary of employees:")
+        console.table(res)
+
+        // initMenu();
+    });
 }
 
 function roleSummary() {
