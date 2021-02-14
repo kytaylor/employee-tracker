@@ -121,7 +121,57 @@ function departmentSummary() {
 }
 
 function newEmployee() {
-    
+    let roleArr = [];
+    connection.query("SELECT * FROM role", function(err, res) {
+        if (err) throw err
+        for (var i = 0; i < res.length; i++) {
+          roleArr.push(res[i].title);
+        }
+    });
+
+    let managerArr = [];
+    connection.query("SELECT first_name, last_name FROM employee WHERE manager_id IS NULL", function(err, res) {
+        if (err) throw err
+        for (var i = 0; i < res.length; i++) {
+          managerArr.push(res[i].first_name);
+        }
+    });
+
+    inquirer.prompt([
+        {
+            name: "firstname",
+            type: "input",
+            message: "Enter employee's first name"
+        },
+        {
+            name: "lastname",
+            type: "input",
+            message: "Enter employee's last name"
+        },
+        {
+            name: "role",
+            type: "list",
+            choices: roleArr
+        },
+        {
+            name: "manager",
+            type: "list",
+            choices: managerArr
+        }
+    ]).then(function(res) {
+        let newEmployeeRoleId = roleArr.indexOf(res.role) + 1;
+        let newEmployeeManagerId = managerArr.indexOf(res.manager) + 1;
+
+        connection.query("INSERT INTO employee SET ?",
+        {
+            first_name: res.firstname,
+            last_name: res.lastname,
+            role_id: newEmployeeRoleId,
+            manager_id: newEmployeeManagerId
+        })
+        console.table(res);
+        initMenu();
+    })
 }
 
 function newRole() {
