@@ -175,11 +175,24 @@ function newEmployee() {
 }
 
 function newRole() {
-    
+
 }
 
 function newDepartment() {
-    
+        inquirer.prompt([
+        {
+            name: "name",
+            type: "input",
+            message: "Enter department name"
+        }
+    ]).then(function(res) {
+        connection.query("INSERT INTO employee SET ?",
+        {
+            name: res.name,
+        })
+        console.table(res);
+        initMenu();
+    })
 }
 
 function editEmployee() {
