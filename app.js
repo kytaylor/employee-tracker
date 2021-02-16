@@ -34,7 +34,7 @@ function initMenu() {
             "Add new role",
             "Add new department",
             "Edit employee",
-            "Edit role",
+            "Edit employee role",
             "Edit department"
         ]
     }]).then(function(res) {
@@ -67,7 +67,7 @@ function initMenu() {
                 editEmployee();
                 break;
                     
-            case "Edit role":
+            case "Edit employee role":
                 editRole();
                 break;
                 
@@ -175,20 +175,45 @@ function newEmployee() {
 }
 
 function newRole() {
-
+    inquirer.prompt([
+        {
+            name: "title",
+            type: "input",
+            message: "Enter role title"
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "Enter role salary"
+        },
+        {
+            name: "department_id",
+            type: "input",
+            message: "Enter department id"
+        }
+    ]).then(function(res) {
+        connection.query("INSERT INTO role SET ?",
+        {
+            title: res.title,
+            salary: res.salary,
+            department_id: res.department_id
+        })
+        console.table(res);
+        initMenu();
+    })
 }
 
 function newDepartment() {
-        inquirer.prompt([
+    inquirer.prompt([
         {
             name: "name",
             type: "input",
             message: "Enter department name"
         }
     ]).then(function(res) {
-        connection.query("INSERT INTO employee SET ?",
+        connection.query("INSERT INTO department SET ?",
         {
-            name: res.name,
+            name: res.name
         })
         console.table(res);
         initMenu();
