@@ -62,17 +62,9 @@ function initMenu() {
             case "Add new department":
                 newDepartment()
                 break;
-                
-            case "Edit employee":
-                editEmployee();
-                break;
                     
             case "Edit employee role":
                 editRole();
-                break;
-                
-            case "Edit department":
-                editDepartment();
                 break;
         }
     })
@@ -220,14 +212,49 @@ function newDepartment() {
     })
 }
 
-function editEmployee() {
-    
-}
-
 function editRole() {
-    
-}
+    let employeeArr = [];
+    connection.query("SELECT employee.last_name FROM employee", function(err, res) {
+        // console.log(res)
+        if (err) throw err
+        for (var i = 0; i < res.length; i++) {
+            employeeArr.push(res[i]);
+        }
+    });
+    // console.log(employeeArr)
 
-function editDepartment() {
-    
+    let roleArr = [];
+    connection.query("SELECT * FROM role", function(err, res) {
+        if (err) throw err
+        for (var i = 0; i < res.length; i++) {
+          roleArr.push(res[i].title);
+        }
+    });
+
+    inquirer.prompt([
+        {
+            name: "name",
+            type: "list",
+            message: "Select employee's last name",
+            choices: roleArr
+        },
+        {
+            name: "role",
+            type: "list",
+            message: "Select employee's new role",
+            choices: roleArr
+        }
+    ]).then(function(res) {
+        let newEmployeeRoleId = roleArr.indexOf(res.role) + 1;
+
+        connection.query("UPDATE employee SET WHERE ?",
+        {
+            name: res.name
+        },
+        {
+            role_id: newEmployeeRoleId
+        })
+        console.table(res);
+        initMenu();
+    })
 }
